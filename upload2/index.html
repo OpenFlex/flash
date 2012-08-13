@@ -1,0 +1,74 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh-CN" xml:lang="zh-CN">
+	<head>
+		<title>index</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<style type="text/css" media="screen">
+		html, body { height:100%; background-color: #ccc;}
+		body { margin:0; padding:0; overflow:hidden; }
+		#flashContent { width:100%; height:100%; }
+		</style>
+		<script src="http://misc.fan.com/min/f=js/jquery-1.6.2.min.js,js/global.js,js/sea.js&20101020"></script>
+		<script src="http://misc.fan.com/min/f=js/plugs/tmpl.min.js&20101020"></script>
+		<link rel="stylesheet" type="text/css" media="screen" href="http://misc.fan.com/min/f=css2/core.css"></link>
+	</head>
+	<body style="padding-left:50px;">
+	<script type="text/javascript">
+	<!--
+		seajs.use('/upload2/upload.js?'+Math.random(),function(upload){
+			var btn = $('#btn'),
+			btn2 = $('#btn2');
+			new upload.Upload({
+				'btn' : btn,
+				'fileType' : '*.jpg',
+				'allowFileSize' : '6m',
+				'allowFileNum' : 6,
+				'uploadUrl' : '/upload.php',
+				'onMouseEnter' : function(){
+					btn.css({'background-color':'red'});
+				},'onMouseLeave' : function(){
+					btn.css({'background-color':'blue'});
+				},'onGetFiles' : function(){
+					upload.log('文件：',arguments);
+				},'onAllUploadComplete1': function(){
+					upload.log('全部上传完成',arguments);
+				},'onToMaxNum' : function(){
+					upload.log('自定义：最多上传',arguments);
+				},'onToMaxSize' : function(){
+					upload.log('自定义：这些文件太大',arguments);
+				}
+			});
+			new upload.Upload({
+				btn : btn2
+			});
+		});
+	//-->
+	</script>
+		<div id="btn" style="width:100px;height:100px;background-color:blue">按钮</div><br/>
+		<div id="btn2" style="position:absolute;right:300px;top:300px;width:100px;height:100px;background-color:blue">按钮2</div>
+		<ul class="upload_progress hide">
+			<li>
+				<span class="upload_filename">测试文件名测试文件名测试文件名测试文件名</span>
+				<span class="upload_close">X</span>
+				<span class="upload_status">成功</span>
+				<span class="upload_progressbar"></span>
+			</li>
+			<li>
+				<span class="upload_filename">测试文件名</span>
+				<span class="upload_close">X</span>
+				<span class="upload_status">40%</span>
+				<span class="upload_progressbar"></span>
+			</li>
+			<li>
+				<span class="upload_filename">测试文件名</span>
+				<span class="upload_close">X</span>
+				<span class="upload_status">等待...</span>
+				<span class="upload_progressbar"></span>
+			</li>
+			<li>
+				<input class="upload_cancel_btn" type="button" value="取消所有上传"/>
+			</li>
+		</ul>
+		<div id="flashContent"></div>
+	</body>
+</html>
