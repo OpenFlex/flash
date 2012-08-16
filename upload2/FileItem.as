@@ -75,6 +75,7 @@
 			_this._remove_loader_event();
 			_this._remove_urlLoader_event();
 			_this._remove_encode_event();
+			_this._clearTimeout();//清除超时
 		}
 		/*开始上传*/
 		public function startUpload(){
@@ -98,7 +99,8 @@
 			}
 		}
 		/*超时*/
-		private function _setTimeout(handle:Function,delay:Number){			
+		private function _setTimeout(handle:Function,delay:Number){
+			_this._clearTimeout();//先清除之前的超时处理
 			_this._timer = new Timer(delay,1);
 			_this._timer_handle = handle;
 			_this._timer.addEventListener(TimerEvent.TIMER_COMPLETE,handle);
