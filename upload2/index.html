@@ -15,7 +15,7 @@
 	<body style="padding-left:50px;">
 	<script type="text/javascript">
 	<!--
-		seajs.use('/upload2/upload.js?'+Math.random(),function(upload){
+		seajs.use('/upload2/upload.js',function(upload){
 			var btn = $('#btn'),
 			btn2 = $('#btn2');
 			new upload.Upload({
@@ -38,6 +38,8 @@
 					upload.log('自定义：这些文件太大',arguments);
 				}
 			});
+		});
+		seajs.use('/upload2/upload.js',function(upload){
 			new upload.Upload({
 				btn : btn2
 			});
