@@ -1,6 +1,6 @@
-define(function(require,exports){
-	require('./upload.css');
-	var debug = /debug/.test(location.search);
+(function(){
+	var debug = /debug/.test(location.search);//调试模式
+	var fdx_time = new Date().getTime();//flash定义名称时用到，保证作用域的唯一性
 	var defaultConfig = {
 		container : $('body'),	//将flash添加到的对象
 		version : typeof front_version == 'undefined'?'':front_version,	//flash的版本号
@@ -201,7 +201,8 @@ define(function(require,exports){
 	Upload.cache = {'length':0};
 	//得到对象名
 	Upload.getMovieName = function(index){
-		return 'fdx_upload_'+index;
+		//保证多次加载文件时有不同的作用域和名称
+		return 'fdx_upload_'+fdx_time+'_'+index;
 	}
 	
 	//得到要显示的flash的html
@@ -397,12 +398,17 @@ define(function(require,exports){
 		win.UploadCallback = uploadCallback;
 	})(window);
 	
-	exports.log = Upload.log;
-	exports.Upload = function(settings){
-		this.up = new Upload(settings);
-	}
-	/*取消上传*/
-	exports.Upload.prototype.cancel = function(fileIndex){
-		this.up.cancel(fileIndex);
-	}
-})
+	/*保证seajs在解析require时的效率(减少正则要检索的字条串长度)*/
+	define(function(require,exports){
+		require('./upload.css');
+		
+		exports.log = Upload.log;
+		exports.Upload = function(settings){
+			this.up = new Upload(settings);
+		}
+		/*取消上传*/
+		exports.Upload.prototype.cancel = function(fileIndex){
+			this.up.cancel(fileIndex);
+		}
+	});
+})()
