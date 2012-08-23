@@ -16,8 +16,7 @@
 	<script type="text/javascript">
 	<!--
 		seajs.use('/upload2/upload.js',function(upload){
-			var btn = $('#btn'),
-			btn2 = $('#btn2');
+			var btn = $('#btn');
 			new upload.Upload({
 				'btn' : btn,
 				'fileType' : '*.jpg',
@@ -40,13 +39,36 @@
 			});
 		});
 		seajs.use('/upload2/upload.js',function(upload){
+			var btn2 = $('#btn2')
 			new upload.Upload({
 				btn : btn2
 			});
 		});
+		function showDiv(){alert(123);
+			$('#hide1').slideDown();
+		}
+		seajs.use('/upload2/upload.js',function(upload){
+			var btn3 = $('#btn3');
+			
+			var up = new upload.Upload({
+				container : btn3.parent(),
+				btn : btn3
+			});
+			$('#btnShow').click(function(){
+				$('#hide1').slideDown(function(){
+					up.fixedPosition();
+				});				
+			});
+		});
 	//-->
 	</script>
-		<div id="btn" style="width:100px;height:100px;background-color:blue">按钮</div><br/>
+		<input type="button" value="show" id="btnShow"/>
+		<div id="hide1" style="margin:200px;border:1px solid blue;height:100px;display:none;">
+			<div style="position:relative;width:100%;height:100px;">
+				<div id="btn3" style="float:right;right:10px;top:10px;width:100px;height:30px;">abc</div>
+			</div>
+		</div>
+		<div id="btn" style="width:200px;height:200px;background-color:blue">这里其它元素可能会影响它的位置,这时最好设置成position:absolute或添加到固定容器</div><br/>
 		<div id="btn2" style="position:absolute;right:300px;top:300px;width:100px;height:100px;background-color:blue">按钮2</div>
 		<ul class="upload_progress hide">
 			<li>

@@ -61,7 +61,7 @@
 		}
 	};
 	//flash路径
-	var flashFile = './index.swf';
+	var flashFile = 'index.swf';
 	//上传进度模板
 	var uploadPregressHtml = '<ul class="upload_progress" id="${movieName}_progress">'+
 								'{{each(i,v) fileList}}'+
@@ -130,7 +130,17 @@
 	uploadProp.cancel = function(fileIndex){
 		Upload.getFlashMovie(this.name).cancel(fileIndex);
 	}
-	
+	/*
+	* 修改上传flash的位置
+	* 当初始化时容器隐藏着（尤其初始尺寸为０）,改变尺寸后要调用此方法修复flash的位置
+	*/
+	uploadProp.fixedPosition = function(){
+		var _this = this,
+			config = _this.config,
+			btn = config.btn;
+		var offset = Upload.getOffset(config,btn);
+		_this.flashObj.css({'left':offset.left,'top':offset.top});
+	}
 	/*将flash覆盖在按钮上*/
 	uploadProp.show = function(){
 		var _this = this,
@@ -251,7 +261,11 @@
 			isRemoveAll = removeProgress.siblings().length <= 1;
 			removeProgress.remove();
 		}
-		isRemoveAll && Upload.getFileProgress(movieName).remove();
+		if(isRemoveAll){
+			Upload.getFileProgress(movieName).remove();
+			var uploadObj = Upload.cache[movieName];
+			uploadObj && (uploadObj.uploadFailedFiles=[]);//将错误列表清除
+		}
 	}
 	/*flash要调用的方法*/
 	;(function(win){
@@ -397,11 +411,10 @@
 		};
 		win.UploadCallback = uploadCallback;
 	})(window);
-	
+
 	/*保证seajs在解析require时的效率(减少正则要检索的字条串长度)*/
 	define(function(require,exports){
 		require('./upload.css');
-		
 		exports.log = Upload.log;
 		exports.Upload = function(settings){
 			this.up = new Upload(settings);
@@ -409,6 +422,10 @@
 		/*取消上传*/
 		exports.Upload.prototype.cancel = function(fileIndex){
 			this.up.cancel(fileIndex);
+		}
+		/*取消上传*/
+		exports.Upload.prototype.fixedPosition = function(){
+			this.up.fixedPosition();
 		}
 	});
 })()
