@@ -23,17 +23,20 @@
 		onMouseEnter : null,	//鼠标移上事件
 		onMouseLeave : null,	//鼠标移出事件
 		onGetFiles : null,		//当选择文件完成事件
-		onToMaxSize : function(){//文件太大事件
-			alert('最大可上传大小为'+this.config.allowFileSize+'的文件');
+		onToMaxSize : function(flashName,allowFileSize,irregularInfo){//文件太大事件
+			alert('最大可上传大小为 '+this.config.allowFileSize+' 的文件');
 		},
-		onToMaxNum : function(remainNum){//达成最大数量事件
+		onToMaxNum : function(flashName,remainNum){//达成最大数量事件
 			alert('最多可上传'+remainNum+'个文件');
+		},
+		illegalFileType : function(flashName,allowFileType,irregularInfo){//文件类型不正确
+			alert('请选择正确的文件类型');
 		},
 		onUploadStart : null,	//上传开始事件
 		onUploadProgress : null,//上传进度事件
 		onUploadError : null,	//上传错误事件
 		onUploadComplete : null,//上传完成事件
-		onAllUploadComplete : function(files){//全部上传完成事件
+		onAllUploadComplete : function(flashName,files){//全部上传完成事件
 			var _this = this;
 			if($.isArray(files) && files.length > 0){
 				if(_this.uploadFailedFiles.length > 0){
@@ -55,13 +58,13 @@
 				Upload.post(url,imgData,config.postParam);
 			}
 		},
-		onUploadCancelSuccess : null,	//取消上传成功事件
-		onError : function(res){		//一般错误事件
-			res && alert(res.info+' [错误代码：'+res.status+']');
+		onUploadCancelSuccess : null,			//取消上传成功事件
+		onError : function(flashName,res){		//一般错误事件
+			res && res.info && alert(res.info+(res.status?' [错误代码：'+res.status+']':''));
 		}
 	};
 	//flash路径
-	var flashFile = 'index.swf';
+	var flashFile = './index.swf';
 	//上传进度模板
 	var uploadPregressHtml = '<ul class="upload_progress" id="${movieName}_progress">'+
 								'{{each(i,v) fileList}}'+
@@ -270,30 +273,32 @@
 	/*flash要调用的方法*/
 	;(function(win){
 		var uploadCallback = {};
-		function callback(flashName,fn,fnArgs/*Array*/){
+		/*fn的回调中会传入除fn个的所有参数*/
+		function callback(flashName,fn,fnArgs/*可以有多个*/){
 			var uploadObj = Upload.cache[flashName];
 			if(typeof uploadObj != 'undefined'){
+				var args = Array.prototype.slice.call(arguments,0);
+				fn = args.splice(1,1).shift();
 				if(!$.isFunction(fn)){
 					fn = uploadObj.config[fn];
 				}
-				$.isFunction(fnArgs) && (fnArgs = fnArgs.apply(uploadObj));
-				$.isFunction(fn) && fn.call(uploadObj,fnArgs);
+				$.isFunction(fn) && fn.apply(uploadObj,args);
 			}
 		}
 		/*鼠标移上*/
 		uploadCallback.mouseEnter = function(flashName){
-			callback(flashName,'onMouseEnter');
 			Upload.log('mouseEnter',arguments);
+			callback(flashName,'onMouseEnter');
 		}
 		/*鼠标移出*/
 		uploadCallback.mouseLeave = function(flashName){
-			callback(flashName,'onMouseLeave');
 			Upload.log('mouseLeave',arguments);
+			callback(flashName,'onMouseLeave');
 		}
 		/*选择完文件准备处理时通知*/
 		uploadCallback.getFiles = function(flashName,files){
-			callback(flashName,'onGetFiles',arguments);
 			Upload.log('getFiles',arguments);
+			callback(flashName,'onGetFiles',files);
 			callback(flashName,function(){
 				var _this = this,
 					flashObj = _this.flashObj,
@@ -312,13 +317,18 @@
 		}
 		/*达到最大上传数量*/
 		uploadCallback.toMaxNum = function(flashName,remainNum){
-			callback(flashName,'onToMaxNum',remainNum);
 			Upload.log('toMaxNum',arguments);
+			callback(flashName,'onToMaxNum',remainNum);
 		}
 		/*文件太大*/
-		uploadCallback.toMaxSize = function(flashName,irregularInfo){
-			callback(flashName,'onToMaxSize',irregularInfo);
+		uploadCallback.toMaxSize = function(flashName,illegalInfo,allowFileSize){
 			Upload.log('toMaxSize',arguments);
+			callback(flashName,'onToMaxSize',allowFileSize,illegalInfo);
+		}
+		/*不合法的文件类型*/
+		uploadCallback.illegalFileType = function(flashName,illegalInfo,allowFileType){
+			Upload.log('illegalFileType',arguments);
+			callback(flashName,'illegalFileType',allowFileType,illegalInfo);
 		}
 		/*上传完成,fileName='all'时表示全部上传完成,此时imgUrl不起作用*/
 		uploadCallback.uploadComplete = function(flashName,fileName,imgInfo){
@@ -328,7 +338,7 @@
 				if(imgInfo && imgInfo.status == '200'){
 					//修复出现异常的上传进度条
 					uploadCallback.uploadProgress(flashName,fileName,1);
-					callback(flashName,'onUploadComplete',arguments);
+					callback(flashName,'onUploadComplete',fileName,imgInfo);
 					callback(flashName,function(){
 						this.uploadedFiles[fileName] = imgInfo;
 						var $file = Upload.getFileProgress(this.name,fileName);
@@ -344,20 +354,20 @@
 				}
 			}else{//全部上传完成
 				Upload.removeFileProgress(flashName);
-				callback(flashName,'onAllUploadComplete',function(){
-					return this.getUploadedFiles();
+				callback(flashName,function(){
+					callback(flashName,'onAllUploadComplete',this.getUploadedFiles());
 				});
 			}
 		}
 		/*准备开始上传*/
 		uploadCallback.uploadStart = function(flashName,fileName){
-			callback(flashName,'onUploadStart',arguments);
 			Upload.log('uploadStart',arguments);
+			callback(flashName,'onUploadStart',fileName);
 		}
 		/*上传进度,percent为0~1的小数*/
 		uploadCallback.uploadProgress = function(flashName,fileName,percent){
 			Upload.log('uploadProgress',arguments);
-			callback(flashName,'onUploadProgress',arguments);
+			callback(flashName,'onUploadProgress',fileName,percent);
 			
 			callback(flashName,function(){
 				var $file = Upload.getFileProgress(this.name,fileName);
@@ -374,8 +384,8 @@
 		}
 		/*取消成功*/
 		uploadCallback.uploadCancelSuccess = function(flashName,fileName){
-			callback(flashName,'onUploadCancelSuccess',arguments);
 			Upload.log('uploadCancelSuccess',arguments);
+			callback(flashName,'onUploadCancelSuccess',fileName);
 			callback(flashName,function(){
 				if(fileName){
 					Upload.removeFileProgress(this.name,fileName);

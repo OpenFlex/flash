@@ -6,6 +6,7 @@
 		public static const ERROR_MIN_WIDTH = 12;				//文件宽度太小
 		public static const ERROR_MIN_HEIGHT = 121;				//文件高度太小
 		public static const ERROR_MAX_SIZE = 122;				//文件尺寸太大
+		public static const ERROR_FILE_TYPE = 123;				//文件类型不对
 		public static const ERROR_TIMEOUT_LOAD_DATA = 13;		//加载本地图片超时
 		public static const ERROR_TIMEOUT_UPLOAD = 131;			//上传超时
 		

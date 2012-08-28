@@ -20,7 +20,7 @@
 			new upload.Upload({
 				'btn' : btn,
 				'fileType' : '*.jpg',
-				'allowFileSize' : '6m',
+				'allowFileSize' : '6K',
 				'allowFileNum' : 6,
 				'uploadUrl' : '/upload.php',
 				'onMouseEnter' : function(){
@@ -28,20 +28,19 @@
 				},'onMouseLeave' : function(){
 					btn.css({'background-color':'blue'});
 				},'onGetFiles' : function(){
-					upload.log('文件：',arguments);
+					upload.log('文件：',arguments,arguments[0]);
 				},'onAllUploadComplete1': function(){
 					upload.log('全部上传完成',arguments);
 				},'onToMaxNum' : function(){
 					upload.log('自定义：最多上传',arguments);
-				},'onToMaxSize' : function(){
-					upload.log('自定义：这些文件太大',arguments);
 				}
 			});
 		});
 		seajs.use('/upload2/upload.js',function(upload){
 			var btn2 = $('#btn2')
 			new upload.Upload({
-				btn : btn2
+				btn : btn2,
+				'uploadUrl' : '/upload.php',
 			});
 		});
 		function showDiv(){alert(123);
@@ -52,7 +51,8 @@
 			
 			var up = new upload.Upload({
 				container : btn3.parent(),
-				btn : btn3
+				btn : btn3,
+				'uploadUrl' : '/upload.php',
 			});
 			$('#btnShow').click(function(){
 				$('#hide1').slideDown(function(){

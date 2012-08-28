@@ -35,8 +35,12 @@
 			this._call('toMaxNum',remainNum);
 		}
 		/*文件太大*/
-		public function toMaxSize(irregularInfo:String){
-			this._call('toMaxSize',irregularInfo);
+		public function toMaxSize(illegalInfo:String,allowFileSize:String=''){
+			this._call('toMaxSize',illegalInfo,allowFileSize);
+		}
+		/*不合法的文件类型*/
+		public function illegalFileType(illegalInfo:String,allowFileType:String=''){
+			this._call('illegalFileType',illegalInfo,allowFileType);
 		}
 		/*上传完成,fileName='all'时表示全部上传完成,此时imgUrl不起作用*/
 		public function uploadComplete(fileName:String,imgUrl:String){

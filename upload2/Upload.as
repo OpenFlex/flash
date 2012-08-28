@@ -132,6 +132,8 @@
 					}
 					var settings = _self.getSettings();
 					settings[settingName] = Number(_re[1])*p;
+					settings['_'+settingName] = size;
+					trace(settings['_'+settingName]);
 				}
 			}
 		}
@@ -215,22 +217,33 @@
 			}
 			//有大文件
 			var a_size = _settings.allowFileSize;
-			var irregularFileArr = new Array();;
+			var maxSizeFileArr = new Array();
+			var noAllowFileArr = new Array();
 			var jsFiles = new Array();
+			
+			var fileType = _settings.fileType;
 			for(var i=0,j=file_reference_list.length;i<j;i++){
 				var file = file_reference_list[i];
-				if(file.size > a_size){
-					irregularFileArr.push(file.name);
+				var _fType = file.type;
+				var _fName = file.name;
+				if(!_fType || fileType.indexOf(_fType) < 0){
+					noAllowFileArr.push(_fName);
+				}else if(file.size > a_size){
+					maxSizeFileArr.push(_fName);
+				}else{
+					//_self.jsCaller.log(file.type,fileType.indexOf(file.type));
+					_self._waittingFiles.push(new FileItem(i,file,_settings));
+					jsFiles.push({'index':i,'name':_fName,'totalSize':file.size});
 				}
-				_self._waittingFiles.push(new FileItem(i,file,_settings));
-				jsFiles.push({'index':i,'name':file.name,'totalSize':file.size});
 			}
-			if(irregularFileArr.length > 0){
-				_self.jsCaller.toMaxSize(irregularFileArr.join(','));
-				return;
+			if(noAllowFileArr.length > 0){
+				_self.jsCaller.illegalFileType(noAllowFileArr.join(','),_settings.fileType);
+			}else if(maxSizeFileArr.length > 0){
+				_self.jsCaller.toMaxSize(maxSizeFileArr.join(','),_settings['_allowFileSize']);
+			}else{
+				jsCaller.getFiles(jsFiles);//通知js用户选择的文件信息
+				_self._nextUpload();
 			}
-			jsCaller.getFiles(jsFiles);//通知js用户选择的文件信息
-			_self._nextUpload();
 		}
 		private function _nextUpload(){
 			if(_self._waittingFiles.length==0){
