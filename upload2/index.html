@@ -8,21 +8,21 @@
 		body { margin:0; padding:0; overflow:hidden; }
 		#flashContent { width:100%; height:100%; }
 		</style>
-		<script src="http://misc.fan.com/min/f=js/jquery-1.6.2.min.js,js/global.js,js/sea.js&20101020"></script>
-		<script src="http://misc.fan.com/min/f=js/plugs/tmpl.min.js&20101020"></script>
-		<link rel="stylesheet" type="text/css" media="screen" href="http://misc.fan.com/min/f=css2/core.css"></link>
+		<script src="http://misc.fandongxi.com/min/f=js/jquery-1.6.2.min.js,js/global.js,js/sea.js&20101020"></script>
+		<script src="http://misc.fandongxi.com/min/f=js/plugs/tmpl.min.js&20101020"></script>
+		<link rel="stylesheet" type="text/css" media="screen" href="http://misc.fandongxi.com/min/f=css2/core.css"></link>
 	</head>
 	<body style="padding-left:50px;">
 	<script type="text/javascript">
 	<!--
-		seajs.use('/upload2/upload.js',function(upload){
+		seajs.use('./upload.js',function(upload){
 			var btn = $('#btn');
 			new upload.Upload({
 				'btn' : btn,
 				'fileType' : '*.jpg',
 				'allowFileSize' : '6K',
 				'allowFileNum' : 6,
-				'uploadUrl' : '/upload.php',
+				'uploadUrl' : './upload.php',
 				'onMouseEnter' : function(){
 					btn.css({'background-color':'red'});
 				},'onMouseLeave' : function(){
@@ -36,23 +36,23 @@
 				}
 			});
 		});
-		seajs.use('/upload2/upload.js',function(upload){
+		seajs.use('./upload.js',function(upload){
 			var btn2 = $('#btn2')
 			new upload.Upload({
 				btn : btn2,
-				'uploadUrl' : '/upload.php',
+				'uploadUrl' : './upload.php',
 			});
 		});
 		function showDiv(){alert(123);
 			$('#hide1').slideDown();
 		}
-		seajs.use('/upload2/upload.js',function(upload){
+		seajs.use('./upload.js',function(upload){
 			var btn3 = $('#btn3');
 			
 			var up = new upload.Upload({
 				container : btn3.parent(),
 				btn : btn3,
-				'uploadUrl' : '/upload.php',
+				'uploadUrl' : './upload.php',
 			});
 			$('#btnShow').click(function(){
 				$('#hide1').slideDown(function(){
