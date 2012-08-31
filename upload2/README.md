@@ -1,5 +1,5 @@
 #flash+js上传文件
-详解用法参考index.html里的用例,可参考：http://tonny-zhang.github.com/flash/upload2/index.html
+详解用法参考index.html里的用例,在线演示：http://tonny-zhang.github.com/flash/upload2/index.html
 ## 参数说明(用户可自定义参数覆盖默认配置)
 	var defaultConfig = {
 		container : $('body'),	//将flash添加到的对象
