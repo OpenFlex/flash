@@ -152,6 +152,7 @@
 			args.minWidth && (settings.minWidth = args.minWidth);
 			args.minHeight && (settings.minHeight = args.minHeight);
 			args.loadDelay && (settings.loadDelay = args.loadDelay);
+			args.fileName && (settings.fileName = args.fileName);
 			
 			_self._formatSizeNum('allowFileSize',args.allowFileSize);
 			_self._formatSizeNum('noCompressUnderSize',args.noCompressUnderSize);
