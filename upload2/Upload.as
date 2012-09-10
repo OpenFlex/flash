@@ -28,7 +28,7 @@
 			'thumbnailHeight' : 1000,				//缩略图高度
 			'thumbnailQuality' : 80,				//压缩品质 1~100
 			'movieName' : 'fdx_upload',				//js传进来的初始化对象名
-			'fileType' : '*.jpg;*.gif;*.png',		//默认文件类型
+			'fileType' : '*.jpg;*.jpeg;*.gif;*.png',//默认文件类型
 			'allowFileSize' : 6*1024*1024,			//允许上传的最大文件大小,默认6M
 			'noCompressUnderSize' : 300*1024,		//当文件大小小于这个值时也不会压缩尺寸，默认300k
 			'allowFileNum' : 6,						//本次会话允许上传的最大数量
@@ -227,7 +227,10 @@
 				var file = file_reference_list[i];
 				var _fType = file.type;
 				var _fName = file.name;
-				if(!_fType || fileType.indexOf(_fType) < 0){
+				if(_fType == null){
+					_fType = _fName.substring(_fName.lastIndexOf('.'));//兼容mac
+				}
+				if(!_fType || fileType.indexOf(_fType.toLowerCase()) < 0){
 					noAllowFileArr.push(_fName);
 				}else if(file.size > a_size){
 					maxSizeFileArr.push(_fName);
