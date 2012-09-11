@@ -223,6 +223,8 @@
 			var jsFiles = new Array();
 			
 			var fileType = _settings.fileType;
+			var isHaveIllegalError = false;//记录是否有不合法的文件，防止二次点击不出选择框
+			
 			for(var i=0,j=file_reference_list.length;i<j;i++){
 				var file = file_reference_list[i];
 				var _fType = file.type;
@@ -232,9 +234,11 @@
 				}
 				if(!_fType || fileType.indexOf(_fType.toLowerCase()) < 0){
 					noAllowFileArr.push(_fName);
+					isHaveIllegalError = true;
 				}else if(file.size > a_size){
 					maxSizeFileArr.push(_fName);
-				}else{
+					isHaveIllegalError = true;
+				}else if(!isHaveIllegalError){
 					//_self.jsCaller.log(file.type,fileType.indexOf(file.type));
 					_self._waittingFiles.push(new FileItem(i,file,_settings));
 					jsFiles.push({'index':i,'name':_fName,'totalSize':file.size});
