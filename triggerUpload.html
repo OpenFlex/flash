@@ -1,0 +1,34 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--[if lt ie 7]> <html class="ie ie6" lang="zh-CN"> <![endif]-->
+<!--[if ie 7]>    <html class="ie ie7" lang="zh-CN"> <![endif]-->
+<!--[if ie 8]>    <html class="ie ie8" lang="zh-CN"> <![endif]-->
+<!--[if gt ie 8]><!-->  <html> <!--<![endif]-->
+ <head>
+		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<!--[if lt ie 7]> <title>IE 7 以下版本</title> <![endif]-->
+<!--[if ie 7]> <title>IE 7</title> <![endif]-->
+<!--[if ie 8]> <title>IE 8</title> <![endif]-->
+<!--[if gt ie 8]><title>IE 8 以上版本</title><![endif]-->
+		<meta name="Generator" content="EditPlus"/>
+		<meta name="Author" content=""/>
+		<meta name="Keywords" content=""/>
+		<meta name="Description" content=""/>
+		<script src="http://js.zk.com/js/jquery-1.6.4.js"></script>
+	</head>
+
+	<body>
+	<a id="test">test</a>
+	<form action="/upload.php" enctype="multipart/form-data" method="post">
+		<input type="file" id="file" name="Filedata"/>
+		<input type="submit" value="testabc"/>
+	</form>
+	<object classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000" codebase="http://fpdownload.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=7,0,0,0" width="164" height="36" id="fdx_upload_0" style="border:1px solid blue;position: absolute; z-index: 99; left: 854.5px; top: 138px; "><param name="allowScriptAccess" value="sameDomain"><param name="movie" value="http://misc.fandongxi.com/js/tool/upload.swf?20120829_153106"><param name="quality" value="high"><param name="bgcolor" value="#ffffff"><param name="wmode" value="transparent"><param name="flashvars" value="movieName=fdx_upload_0&amp;minWidth=500&amp;minHeight=500&amp;thumbnailWidth=600&amp;thumbnailHeight=1000&amp;thumbnailQuality=80&amp;allowFileSize=6m&amp;noCompressUnderSize=300k&amp;allowFileNum=6&amp;fileName=imagefile&amp;uploadUrl=%2Fshow%2Fajax%2Fupload.fan"><embed src="http://misc.fandongxi.com/js/tool/upload.swf?20120829_153106" name="fdx_upload_0" quality="high" bgcolor="#ffffff" width="164" height="36" swliveconnect="true" allowscriptaccess="sameDomain" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer" wmode="transparent" flashvars="movieName=fdx_upload_0&amp;minWidth=500&amp;minHeight=500&amp;thumbnailWidth=600&amp;thumbnailHeight=1000&amp;thumbnailQuality=80&amp;allowFileSize=6m&amp;noCompressUnderSize=300k&amp;allowFileNum=6&amp;fileName=imagefile&amp;uploadUrl=%2Fshow%2Fajax%2Fupload.fan"> </object>
+	<script type="text/javascript">
+	<!--
+		$('#test').click(function(){
+			$('#file').trigger('click');
+		});
+	//-->
+	</script>
+	</body>
+</html>

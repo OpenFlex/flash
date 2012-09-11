@@ -411,15 +411,15 @@
 			jsCaller.uploadProgress(_this.file_name,percent);
 		}
 		/*上传安全出错*/
-		private function _handle_urlloader_security_error(e:Event){trace('_handle_urlloader_security_error');			
+		private function _handle_urlloader_security_error(e:SecurityErrorEvent){trace('_handle_urlloader_security_error');			
 			_this._remove_urlLoader_event();
 			_this.errorMsg(State.ERROR_UPLOAD_FILE_SECURITY,'上传时出现安全错误');
 		}
 		/*httpstatus改变*/
-		private function _handle_urlloader_httpstatus(e:Event){trace('_handle_urlloader_httpstatus');
+		private function _handle_urlloader_httpstatus(e:HTTPStatusEvent){trace('_handle_urlloader_httpstatus');
 		}
 		/*io错误*/
-		private function _hand_urlloader_io_error(e:Event){trace('_hand_urlloader_io_error');
+		private function _hand_urlloader_io_error(e:IOErrorEvent){trace('_hand_urlloader_io_error');
 			_this._remove_urlLoader_event();
 			_this.errorMsg(State.ERROR_UPLOAD_FILE_IO,'上传时出现IO错误');
 		}

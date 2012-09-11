@@ -24,7 +24,7 @@
 		onMouseLeave : null,	//鼠标移出事件
 		onGetFiles : null,		//当选择文件完成事件
 		onToMaxSize : function(flashName,allowFileSize,irregularInfo){//文件太大事件
-			alert('最大可上传大小为 '+this.config.allowFileSize+' 的文件');
+			alert('最大可上传大小为 '+allowFileSize+' 的文件');
 		},
 		onToMaxNum : function(flashName,remainNum){//达成最大数量事件
 			alert('最多可上传'+remainNum+'个文件');

@@ -28,7 +28,7 @@
 			'thumbnailHeight' : 1000,				//缩略图高度
 			'thumbnailQuality' : 80,				//压缩品质 1~100
 			'movieName' : 'fdx_upload',				//js传进来的初始化对象名
-			'fileType' : '*.jpg;*.gif;*.png',		//默认文件类型
+			'fileType' : '*.jpg;*.jpeg;*.gif;*.png',//默认文件类型
 			'allowFileSize' : 6*1024*1024,			//允许上传的最大文件大小,默认6M
 			'noCompressUnderSize' : 300*1024,		//当文件大小小于这个值时也不会压缩尺寸，默认300k
 			'allowFileNum' : 6,						//本次会话允许上传的最大数量
@@ -152,6 +152,7 @@
 			args.minWidth && (settings.minWidth = args.minWidth);
 			args.minHeight && (settings.minHeight = args.minHeight);
 			args.loadDelay && (settings.loadDelay = args.loadDelay);
+			args.fileName && (settings.fileName = args.fileName);
 			
 			_self._formatSizeNum('allowFileSize',args.allowFileSize);
 			_self._formatSizeNum('noCompressUnderSize',args.noCompressUnderSize);
@@ -222,11 +223,15 @@
 			var jsFiles = new Array();
 			
 			var fileType = _settings.fileType;
+			
 			for(var i=0,j=file_reference_list.length;i<j;i++){
 				var file = file_reference_list[i];
 				var _fType = file.type;
 				var _fName = file.name;
-				if(!_fType || fileType.indexOf(_fType) < 0){
+				if(_fType == null){
+					_fType = _fName.substring(_fName.lastIndexOf('.'));//兼容mac
+				}
+				if(!_fType || fileType.indexOf(_fType.toLowerCase()) < 0){
 					noAllowFileArr.push(_fName);
 				}else if(file.size > a_size){
 					maxSizeFileArr.push(_fName);
@@ -236,10 +241,16 @@
 					jsFiles.push({'index':i,'name':_fName,'totalSize':file.size});
 				}
 			}
+			var isHaveIllegalError = false;//记录是否有不合法的文件，防止二次点击不出选择框
 			if(noAllowFileArr.length > 0){
 				_self.jsCaller.illegalFileType(noAllowFileArr.join(','),_settings.fileType);
+				isHaveIllegalError = true;
 			}else if(maxSizeFileArr.length > 0){
 				_self.jsCaller.toMaxSize(maxSizeFileArr.join(','),_settings['_allowFileSize']);
+				isHaveIllegalError = true;
+			}
+			if(isHaveIllegalError){//当有不合法文件时把等待文件列表清空
+				_self._waittingFiles.splice(0,_self._waittingFiles.length);
 			}else{
 				jsCaller.getFiles(jsFiles);//通知js用户选择的文件信息
 				_self._nextUpload();
