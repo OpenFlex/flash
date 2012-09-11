@@ -16,7 +16,7 @@
 	<script type="text/javascript">
 	<!--
 		var front_version = Math.random();
-		seajs.use('/upload2/upload.js',function(upload){
+		seajs.use('./upload.js',function(upload){
 			var btn = $('#btn');
 			new upload.Upload({
 				'btn' : btn,
@@ -37,7 +37,7 @@
 				}
 			});
 		});
-		seajs.use('/upload2/upload.js',function(upload){
+		seajs.use('./upload.js',function(upload){
 			var btn2 = $('#btn2')
 			new upload.Upload({
 				btn : btn2,
@@ -47,7 +47,7 @@
 		function showDiv(){alert(123);
 			$('#hide1').slideDown();
 		}
-		seajs.use('/upload2/upload.js',function(upload){
+		seajs.use('./upload.js',function(upload){
 			var btn3 = $('#btn3');
 
 			var up = new upload.Upload({
