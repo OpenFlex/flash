@@ -20,8 +20,9 @@
 			var btn = $('#btn');
 			new upload.Upload({
 				'btn' : btn,
+				'minWidth' : 250,
+				'minHeight' : 250,
 				'fileType' : '*.jpg',
-				'allowFileSize' : '6K',
 				'allowFileNum' : 6,
 				'uploadUrl' : '/upload.php',
 				'onMouseEnter' : function(){

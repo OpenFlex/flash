@@ -268,13 +268,11 @@
 			if(_oldWidth * _oldHeight > 16000000){
 				error_state = State.ERROR_MAX_SIZE;
 				error_message = '图片尺寸过大，请尝试缩小尺寸后再上传';
-			}else if(_oldWidth > _oldHeight){
+			}else{
 				if(_oldWidth < _settings.minWidth){
 					error_state = State.ERROR_MIN_WIDTH;
 					error_message = '图片尺寸太小，图片宽不能小于'+_settings.minWidth+'像素';
-				}
-			}else{
-				if(_oldHeight < _settings.minHeight){
+				}else if(_oldHeight < _settings.minHeight){
 					error_state = State.ERROR_MIN_HEIGHT;
 					error_message = '图片尺寸太小，图片高不能小于'+_settings.minHeight+'像素';
 				}
