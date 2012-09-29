@@ -265,7 +265,7 @@
 			
 			var error_state:Number,
 				error_message:String;
-			if(_oldWidth * _oldHeight > 16000000){
+			if(_oldWidth * _oldHeight >= 16000000){
 				error_state = State.ERROR_MAX_SIZE;
 				error_message = '图片尺寸过大，请尝试缩小尺寸后再上传';
 			}else{
@@ -293,15 +293,18 @@
 				
 					var newWidth = _oldWidth,
 						newHeight = _oldHeight;
-					if(_oldWidth > _toWidth || _oldHeight > _toHeight){
-						var _r_h = _toHeight/_oldHeight,
-							_r_w = _toWidth/_oldWidth;
-						if(_r_h > _r_w){
-							newWidth = _toWidth;
-							newHeight = _oldHeight * _r_w;
-						}else{
-							newWidth = _oldWidth * _r_h;
-							newHeight = _toHeight;
+					//不压缩尺寸
+					if(_toWidth > 0 && _toHeight > 0){
+						if(_oldWidth > _toWidth || _oldHeight > _toHeight){
+							var _r_h = _toHeight/_oldHeight,
+								_r_w = _toWidth/_oldWidth;
+							if(_r_h > _r_w){
+								newWidth = _toWidth;
+								newHeight = _oldHeight * _r_w;
+							}else{
+								newWidth = _oldWidth * _r_h;
+								newHeight = _toHeight;
+							}
 						}
 					}
 			
@@ -335,7 +338,7 @@
 					bmp.dispose();
 				}catch(e:Error){
 					_this._cancelUploadRemoveEvent();
-					_this.errorMsg(State.ERROR_LOAD_FILE,'处理本地图片失败');
+					_this.errorMsg(State.ERROR_LOAD_FILE,'处理本地图片失败,可能由于尺寸太大');
 				}
 			}
 		}

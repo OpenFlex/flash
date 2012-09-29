@@ -5,10 +5,10 @@
 		container : $('body'),	//将flash添加到的对象
 		version : typeof front_version == 'undefined'?'':front_version,	//flash的版本号
 		btn : null,				//此参数必须设置，flash最后将覆盖其上
-		minWidth : 500,			//图片最小宽度
-		minHeight : 500,		//图片最小高度
-		thumbnailWidth : 600,	//缩略图宽度
-		thumbnailHeight : 1000,	//缩略图高度
+		minWidth : null,			//图片最小宽度
+		minHeight : null,		//图片最小高度
+		thumbnailWidth : null,	//缩略图宽度
+		thumbnailHeight : null,	//缩略图高度
 		thumbnailQuality : 80,	//缩略图品质
 		fileType : null,		//文件类型,flash里默认为"*.jpg;*.gif;*.png"
 		allowFileSize : '6m',	//允许上传的文件大小

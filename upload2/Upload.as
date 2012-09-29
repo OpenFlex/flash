@@ -22,10 +22,10 @@
 	public class Upload extends MovieClip{
 		private var _settings = {
 			'loadDelay' : 5000,						//加载图片的超时时间
-			'minWidth' : 500,						//文件最小宽度
-			'minHeight' : 500,						//文件最小高度
-			'thumbnailWidth': 1000,					//缩略图宽度
-			'thumbnailHeight' : 1000,				//缩略图高度
+			'minWidth' : 0,							//文件最小宽度	(为0时表示不限制宽度)
+			'minHeight' : 0,						//文件最小高度	(为0时表示不限制高度)
+			'thumbnailWidth': 0,					//缩略图宽度		(thumbnailWidth和thumbnailHeight同时为0时不压缩尺寸)
+			'thumbnailHeight' : 0,					//缩略图高度
 			'thumbnailQuality' : 80,				//压缩品质 1~100
 			'movieName' : 'fdx_upload',				//js传进来的初始化对象名
 			'fileType' : '*.jpg;*.jpeg;*.gif;*.png',//默认文件类型
